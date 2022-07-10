@@ -1,25 +1,19 @@
-/* global React ReactDOM */
+import React from 'react'
+import { render } from 'react-dom'
+import MyTitle from './MyTitle'
 
-var ce = React.createElement;
-
-var MyTitle = function (props) {
-  return (
-    ce('div', null,
-      ce('h1', null, props.title)
-    )
-  );
-};
+var ce = React.createElement
 
 var MyFirstComponent = function () {
-  return (
-    ce('h1', {style: {color: props.color}}, props.title)
+    return ce(
+        'div',
+        null,
+        ce(MyTitle, { color: 'rebeccapurple', title: 'CHTML' }),
+        ce(MyTitle, {
+            color: 'peru',
+            title: 'Center for the History of Music Theory and Literature',
+        })
+    )
+}
 
-// change MyFirstComponent inside div
-ce(MyTitle, {color: 'rebeccapurple', title: 'CHTML'}),
-ce(MyTitle, {color: 'peru', title: 'Center for the History of Music Theory and Literature'})
-};
-
-ReactDOM.render(
-  ce(MyFirstComponent),
-  document.getElementById("app")
-);
+render(React.createElement(MyFirstComponent), document.getElementById('app'))
