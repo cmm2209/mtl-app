@@ -2,26 +2,29 @@
 
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const WorkboxWebpackPlugin = require('workbox-webpack-plugin')
+const WorkboxPlugin = require('workbox-webpack-plugin')
 
-const isProduction = process.env.NODE_ENV == 'production'
+// const isProduction = process.env.NODE_ENV == 'production'
 
 const stylesHandler = 'style-loader'
 
 const config = {
-    entry: './js/ClientApp.js',
+    entry: './js/ClientApp.jsx',
     output: {
-        path: path.resolve(__dirname, 'public'),
+        path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js',
-        publicPath: '/public/',
-    },
-    devServer: {
-        open: true,
-        host: 'localhost',
+        publicPath: '/dist/',
+        clean: true,
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: 'index.html',
+        }),
+        new WorkboxPlugin.GenerateSW({
+            // these options encourage the ServiceWorkers to get in there fast
+            // and not allow any straggling "old" SWs to hang around
+            clientsClaim: true,
+            skipWaiting: true,
         }),
 
         // Add your plugins here
@@ -30,8 +33,16 @@ const config = {
     module: {
         rules: [
             {
-                test: /\.(js|jsx)$/i,
-                loader: 'babel-loader',
+                test: /\.jsx?$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['react'],
+                        },
+                    },
+                ],
             },
             {
                 test: /\.css$/i,
@@ -48,13 +59,29 @@ const config = {
     },
 }
 
-module.exports = () => {
-    if (isProduction) {
-        config.mode = 'production'
-
-        config.plugins.push(new WorkboxWebpackPlugin.GenerateSW())
-    } else {
-        config.mode = 'development'
-    }
-    return config
+module.exports = {
+    mode: 'development',
+    devServer: {
+        hot: true,
+        historyApiFallback: true,
+        static: '/dist/',
+        devMiddleware: {
+            index: true,
+            mimeTypes: { phtml: 'text/html' },
+            publicPath: '/dist/',
+            serverSideRender: true,
+            writeToDisk: true,
+        },
+        compress: true,
+        port: 8080,
+    },
 }
+// () => {
+//    if (isProduction) {
+//        config.mode = 'production'
+//        config.plugins.push(new WorkboxWebpackPlugin.GenerateSW())
+//    } else {
+//        config.mode = 'development'
+//    }
+//    return config
+// }
