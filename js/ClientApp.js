@@ -12,12 +12,11 @@ var MyTitle = function (props) {
 
 var MyFirstComponent = function () {
   return (
-    ce('div', null,
-      ce(MyTitle, {title: 'House of Cards'}),
-      ce(MyTitle, {title: 'Orange is the New Black'}),
-      ce(MyTitle, {title: 'Stranger Things'})
-    )
-  );
+    ce('h1', {style: {color: props.color}}, props.title)
+
+// change MyFirstComponent inside div
+ce(MyTitle, {color: 'rebeccapurple', title: 'CHTML'}),
+ce(MyTitle, {color: 'peru', title: 'Center for the History of Music Theory and Literature'})
 };
 
 ReactDOM.render(
