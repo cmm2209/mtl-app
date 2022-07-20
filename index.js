@@ -50,6 +50,34 @@ const $6e03ea5f608996b5$var$Pet = (props)=>{
 var $6e03ea5f608996b5$export$2e2bcd8739ae039 = $6e03ea5f608996b5$var$Pet;
 
 
+
+const $96f9e471ce6b98c3$var$localCache = {};
+function $96f9e471ce6b98c3$export$2e2bcd8739ae039(animal) {
+    const [breedList, setBreedList] = (0, $5yMRr$react.useState)([]);
+    const [status, setStatus] = (0, $5yMRr$react.useState)("unloaded");
+    (0, $5yMRr$react.useEffect)(()=>{
+        if (!animal) setBreedList([]);
+        else if ($96f9e471ce6b98c3$var$localCache[animal]) setBreedList($96f9e471ce6b98c3$var$localCache[animal]);
+        else requestBreedList();
+        async function requestBreedList() {
+            setBreedList([]);
+            setStatus("loading");
+            const res = await fetch(`http://pets-v2.dev-apis.com/breeds?animal=${animal}`);
+            const json = await res.json();
+            $96f9e471ce6b98c3$var$localCache[animal] = json.breeds || [];
+            setBreedList($96f9e471ce6b98c3$var$localCache[animal]);
+            setStatus("loaded");
+        }
+    }, [
+        animal
+    ]);
+    return [
+        breedList,
+        status
+    ];
+}
+
+
 const $f8423c45d610b44e$var$ANIMALS = [
     "bird",
     "cat",
@@ -62,7 +90,7 @@ const $f8423c45d610b44e$var$SearchParams = ()=>{
     const [animal1, updateAnimal] = (0, $5yMRr$react.useState)("");
     const [breed1, updateBreed] = (0, $5yMRr$react.useState)("");
     const [pets, setPets] = (0, $5yMRr$react.useState)([]);
-    const breeds = [];
+    const [breeds] = (0, $96f9e471ce6b98c3$export$2e2bcd8739ae039)(animal1);
     (0, $5yMRr$react.useEffect)(()=>{
         requestPets();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -87,13 +115,13 @@ const $f8423c45d610b44e$var$SearchParams = ()=>{
                                 onChange: (e)=>updateLocation(e.target.value)
                             }, void 0, false, {
                                 fileName: "C:\\Users\\Caleb\\Documents\\Git\\mtl-app\\src\\SearchParams.js",
-                                lineNumber: 31,
+                                lineNumber: 32,
                                 columnNumber: 11
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "C:\\Users\\Caleb\\Documents\\Git\\mtl-app\\src\\SearchParams.js",
-                        lineNumber: 29,
+                        lineNumber: 30,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, $5yMRr$reactjsxdevruntime.jsxDEV)("label", {
@@ -114,7 +142,7 @@ const $f8423c45d610b44e$var$SearchParams = ()=>{
                                 children: [
                                     /*#__PURE__*/ (0, $5yMRr$reactjsxdevruntime.jsxDEV)("option", {}, void 0, false, {
                                         fileName: "C:\\Users\\Caleb\\Documents\\Git\\mtl-app\\src\\SearchParams.js",
-                                        lineNumber: 52,
+                                        lineNumber: 53,
                                         columnNumber: 13
                                     }, undefined),
                                     $f8423c45d610b44e$var$ANIMALS.map((animal)=>/*#__PURE__*/ (0, $5yMRr$reactjsxdevruntime.jsxDEV)("option", {
@@ -122,19 +150,19 @@ const $f8423c45d610b44e$var$SearchParams = ()=>{
                                             children: animal
                                         }, animal, false, {
                                             fileName: "C:\\Users\\Caleb\\Documents\\Git\\mtl-app\\src\\SearchParams.js",
-                                            lineNumber: 54,
+                                            lineNumber: 55,
                                             columnNumber: 15
                                         }, undefined))
                                 ]
                             }, void 0, true, {
                                 fileName: "C:\\Users\\Caleb\\Documents\\Git\\mtl-app\\src\\SearchParams.js",
-                                lineNumber: 40,
+                                lineNumber: 41,
                                 columnNumber: 11
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "C:\\Users\\Caleb\\Documents\\Git\\mtl-app\\src\\SearchParams.js",
-                        lineNumber: 38,
+                        lineNumber: 39,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, $5yMRr$reactjsxdevruntime.jsxDEV)("label", {
@@ -150,7 +178,7 @@ const $f8423c45d610b44e$var$SearchParams = ()=>{
                                 children: [
                                     /*#__PURE__*/ (0, $5yMRr$reactjsxdevruntime.jsxDEV)("option", {}, void 0, false, {
                                         fileName: "C:\\Users\\Caleb\\Documents\\Git\\mtl-app\\src\\SearchParams.js",
-                                        lineNumber: 69,
+                                        lineNumber: 70,
                                         columnNumber: 13
                                     }, undefined),
                                     breeds.map((breed)=>/*#__PURE__*/ (0, $5yMRr$reactjsxdevruntime.jsxDEV)("option", {
@@ -158,32 +186,32 @@ const $f8423c45d610b44e$var$SearchParams = ()=>{
                                             children: breed
                                         }, breed, false, {
                                             fileName: "C:\\Users\\Caleb\\Documents\\Git\\mtl-app\\src\\SearchParams.js",
-                                            lineNumber: 71,
+                                            lineNumber: 72,
                                             columnNumber: 15
                                         }, undefined))
                                 ]
                             }, void 0, true, {
                                 fileName: "C:\\Users\\Caleb\\Documents\\Git\\mtl-app\\src\\SearchParams.js",
-                                lineNumber: 62,
+                                lineNumber: 63,
                                 columnNumber: 11
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "C:\\Users\\Caleb\\Documents\\Git\\mtl-app\\src\\SearchParams.js",
-                        lineNumber: 60,
+                        lineNumber: 61,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, $5yMRr$reactjsxdevruntime.jsxDEV)("button", {
                         children: "Submit"
                     }, void 0, false, {
                         fileName: "C:\\Users\\Caleb\\Documents\\Git\\mtl-app\\src\\SearchParams.js",
-                        lineNumber: 77,
+                        lineNumber: 78,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "C:\\Users\\Caleb\\Documents\\Git\\mtl-app\\src\\SearchParams.js",
-                lineNumber: 28,
+                lineNumber: 29,
                 columnNumber: 7
             }, undefined),
             pets.map((pet)=>/*#__PURE__*/ (0, $5yMRr$reactjsxdevruntime.jsxDEV)((0, $6e03ea5f608996b5$exports.default), {
@@ -192,13 +220,13 @@ const $f8423c45d610b44e$var$SearchParams = ()=>{
                     breed: pet.breed
                 }, pet.id, false, {
                     fileName: "C:\\Users\\Caleb\\Documents\\Git\\mtl-app\\src\\SearchParams.js",
-                    lineNumber: 80,
+                    lineNumber: 81,
                     columnNumber: 9
                 }, undefined))
         ]
     }, void 0, true, {
         fileName: "C:\\Users\\Caleb\\Documents\\Git\\mtl-app\\src\\SearchParams.js",
-        lineNumber: 27,
+        lineNumber: 28,
         columnNumber: 5
     }, undefined);
 };
